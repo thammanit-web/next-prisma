@@ -25,15 +25,18 @@ export async function PUT(
   { params }: { params: { id: string } },
 ) {
   try {
-    const { title, content } = await req.json()
-    return Response.json(await prisma.post.update({
+    const { title, content } = await req.json();
+    const updatedPost = await prisma.post.update({
       where: { id: Number(params.id) },
       data: { title, content },
-    }))
+    });
+    return NextResponse.json(updatedPost);
   } catch (error) {
-    return new Response(error as BodyInit, {
-      status: 500,
-    })
+    console.error('Error updating post:', error);
+    return NextResponse.json(
+      { error: 'Failed to update the post' },
+      { status: 500 }
+    );
   }
 }
 
@@ -42,12 +45,15 @@ export async function DELETE(
   { params }: { params: { id: string } },
 ) {
   try {
-    return Response.json(await prisma.post.delete({
+    const deletedPost = await prisma.post.delete({
       where: { id: Number(params.id) },
-    }))
+    });
+    return NextResponse.json(deletedPost);
   } catch (error) {
-    return new Response(error as BodyInit, {
-      status: 500,
-    })
+    console.error('Error deleting post:', error);
+    return NextResponse.json(
+      { error: 'Failed to delete the post' },
+      { status: 500 }
+    );
   }
 }
