@@ -1,53 +1,67 @@
-import { PrismaClient } from '@prisma/client'
-import { NextRequest,NextResponse } from 'next/server';
+import { PrismaClient } from '@prisma/client';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
+  req: NextApiRequest,
+  res: NextApiResponse
 ) {
   try {
+    const { id } = req.query; // Getting the ID from the query parameters
+    if (typeof id !== 'string') {
+      return res.status(400).json({ error: 'Invalid ID format' });
+    }
     const post = await prisma.post.findUnique({
-      where: { id: Number(params.id) },
+      where: { id: Number(id) },
     });
     if (!post) {
-      return NextResponse.json({ error: 'Post not found' }, { status: 404 });
+      return res.status(404).json({ error: 'Post not found' });
     }
-    return NextResponse.json(post);
+    return res.status(200).json(post);
   } catch (error) {
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    return res.status(500).json({ error: 'Internal Server Error' });
   }
 }
 
 export async function PUT(
-  req: Request,
-  { params }: { params: { id: string } },
+  req: NextApiRequest,
+  res: NextApiResponse
 ) {
   try {
-    const { title, content } = await req.json()
-    return Response.json(await prisma.post.update({
-      where: { id: Number(params.id) },
+    const { id } = req.query; // Getting the ID from the query parameters
+    if (typeof id !== 'string') {
+      return res.status(400).json({ error: 'Invalid ID format' });
+    }
+
+    const { title, content } = req.body; // Destructuring the request body
+    const updatedPost = await prisma.post.update({
+      where: { id: Number(id) },
       data: { title, content },
-    }))
+    });
+
+    return res.status(200).json(updatedPost);
   } catch (error) {
-    return new Response(error as BodyInit, {
-      status: 500,
-    })
+    return res.status(500).json({ error: 'Internal Server Error' });
   }
 }
 
 export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } },
+  req: NextApiRequest,
+  res: NextApiResponse
 ) {
   try {
-    return Response.json(await prisma.post.delete({
-      where: { id: Number(params.id) },
-    }))
+    const { id } = req.query; // Getting the ID from the query parameters
+    if (typeof id !== 'string') {
+      return res.status(400).json({ error: 'Invalid ID format' });
+    }
+
+    const deletedPost = await prisma.post.delete({
+      where: { id: Number(id) },
+    });
+
+    return res.status(200).json(deletedPost);
   } catch (error) {
-    return new Response(error as BodyInit, {
-      status: 500,
-    })
+    return res.status(500).json({ error: 'Internal Server Error' });
   }
 }
