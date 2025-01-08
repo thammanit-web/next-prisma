@@ -1,7 +1,7 @@
-import { PrismaClient } from '@prisma/client';
-import { NextRequest, NextResponse } from 'next/server';
+import { PrismaClient } from '@prisma/client'
+import { NextRequest,NextResponse } from 'next/server';
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient()
 
 export async function GET(
   req: NextRequest,
@@ -16,41 +16,38 @@ export async function GET(
     }
     return NextResponse.json(post);
   } catch (error) {
-    console.error(error); // Log the error
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
 
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
-    const { title, content } = await req.json();
+    const { title, content } = await req.json()
     return Response.json(await prisma.post.update({
       where: { id: Number(params.id) },
       data: { title, content },
-    }));
+    }))
   } catch (error) {
-    console.error(error); // Log the error
-    return new Response('Internal Server Error', {
+    return new Response(error as BodyInit, {
       status: 500,
-    });
+    })
   }
 }
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: { id: string } },
 ) {
   try {
     return Response.json(await prisma.post.delete({
       where: { id: Number(params.id) },
-    }));
+    }))
   } catch (error) {
-    console.error(error); // Log the error
-    return new Response('Internal Server Error', {
+    return new Response(error as BodyInit, {
       status: 500,
-    });
+    })
   }
 }
