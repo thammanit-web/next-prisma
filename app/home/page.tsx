@@ -20,7 +20,7 @@ export default function List() {
   const fetchPosts = async () => {
     try {
       const res = await axios.get('/api/posts')
-      setPosts(res.data) // Ensure that your API returns data matching the Post[] type
+      setPosts(res.data)
     } catch (error) {
       console.error(error)
     }
@@ -37,9 +37,9 @@ export default function List() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <h1 className="text-2xl font-semibold mb-6">Blog Posts</h1>
-      <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-        <table className="min-w-full divide-y divide-gray-200">
+      <h1 className="text-2xl font-semibold mb-6 underline">Blog Posts</h1>
+      <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg ">
+        <table className="min-w-full divide-y divide-grbg-gray-50ay-200">
           <thead className="bg-gray-50">
             <tr>
               <th
