@@ -5,6 +5,7 @@ const prisma = new PrismaClient()
 
 export async function GET(
   req: NextRequest,
+  res: NextResponse,
   { params }: { params: { id: number } }
 ) {
   try {
