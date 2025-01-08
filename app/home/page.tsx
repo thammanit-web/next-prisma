@@ -4,8 +4,14 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Link from 'next/link'
 
-export default function List () {
-  const [posts, setPosts] = useState([])
+interface Post {
+  id: number
+  title: string
+  content: string
+}
+
+export default function List() {
+  const [posts, setPosts] = useState<Post[]>([])
 
   useEffect(() => {
     fetchPosts()
@@ -14,7 +20,7 @@ export default function List () {
   const fetchPosts = async () => {
     try {
       const res = await axios.get('/api/posts')
-      setPosts(res.data)
+      setPosts(res.data) // Ensure that your API returns data matching the Post[] type
     } catch (error) {
       console.error(error)
     }
@@ -57,16 +63,14 @@ export default function List () {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {posts.map((post: any) => (
+            {posts.map((post) => (
               <tr key={post.id}>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm font-medium text-gray-900">
                     {post.title}
                   </div>
                 </td>
-                <td>
-                {post.content}
-                </td>
+                <td>{post.content}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                   <Link
                     className="text-indigo-600 hover:underline mr-4"

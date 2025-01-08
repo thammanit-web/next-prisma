@@ -28,7 +28,7 @@ export default function LoginCard(){
       } else {
         setError(data.error || 'Login failed');
       }
-    } catch (err) {
+    } catch {
       setError('Please try again.');
     } finally {
       setLoading(false);
