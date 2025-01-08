@@ -11,7 +11,7 @@ export default function Edit ({ params }: { params: Promise<{ id: string }> })  
   const router = useRouter()
   const { id } = use(params)
 
-  const fetchPost = async (id: Number) => {
+  const fetchPost = async (id: number) => {
     try {
       const res = await axios.get(`/api/posts/${id}`)
       setTitle(res.data.title)

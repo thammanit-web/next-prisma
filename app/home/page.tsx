@@ -20,7 +20,7 @@ export default function List () {
     }
   }
 
-  const deletePost = async (id: Number) => {
+  const deletePost = async (id: number) => {
     try {
       await axios.delete(`/api/posts/${id}`)
       fetchPosts()
