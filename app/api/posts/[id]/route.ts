@@ -3,13 +3,9 @@ import { NextRequest,NextResponse } from 'next/server';
 
 const prisma = new PrismaClient()
 
-interface Params {
-  id: string;
-}
-
 export async function GET(
   req: NextRequest,
-  { params }: { params: Params }
+  { params }: { params: { id: number } }
 ) {
   try {
     const post = await prisma.post.findUnique({
