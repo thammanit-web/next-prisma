@@ -22,8 +22,9 @@ export async function GET(
 }
 
 export async function PUT(
-  req: Request,
-  { params }: { params: { id: string } },
+  req: NextRequest,
+  res: NextResponse,
+  { params }: { params: { id: number } }
 ) {
   try {
     const { title, content } = await req.json()
@@ -39,8 +40,9 @@ export async function PUT(
 }
 
 export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } },
+  req: NextRequest,
+  res: NextResponse,
+  { params }: { params: { id: number } }
 ) {
   try {
     return Response.json(await prisma.post.delete({
