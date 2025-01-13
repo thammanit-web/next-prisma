@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import { serialize } from 'cookie';
 
 const SECRET_KEY = process.env.JWT_SECRET_KEY || 'your-secret-key';
-
+export const dynamic = 'force-dynamic'; 
 export async function POST(request: Request) {
   try {
     const { email, password } = await request.json();
