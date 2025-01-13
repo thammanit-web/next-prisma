@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 const SECRET_KEY = process.env.JWT_SECRET_KEY || 'your-secret-key'; 
-export const dynamic = 'force-dynamic'; 
+
 export async function POST(request: Request) {
   try {
     const { email, password } = await request.json();
@@ -36,3 +36,5 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
+
+export const runtime = 'edge'; 
