@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { NextRequest,NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 const prisma = new PrismaClient()
 
@@ -44,13 +44,19 @@ export async function DELETE(
   { params }: { params: Promise<{ id: number }> },
 ) {
   try {
-    const { id } = await params
-    return Response.json(await prisma.post.delete({
+    const { id } = await params;
+
+    const deletedPost = await prisma.post.delete({
       where: { id: Number(id) },
-    }))
+    });
+    
+    await prisma.$executeRaw`DBCC CHECKIDENT ('Post', RESEED, 0);`;
+
+    return Response.json(deletedPost); 
   } catch (error) {
-    return new Response(error as BodyInit, {
-      status: 500,
-    })
+    return new Response(
+      JSON.stringify({ error: 'An unknown error occurred' }),
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    );
   }
 }

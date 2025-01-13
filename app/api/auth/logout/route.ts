@@ -1,0 +1,23 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { serialize } from 'cookie';
+
+export async function POST(request: NextRequest) {
+  const cookie = serialize('auth-token', '', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+    sameSite: 'strict',
+    maxAge: -1,
+    path: '/',
+  });
+
+  return new NextResponse(
+    JSON.stringify({ message: 'Logout successful' }),
+    {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        'Set-Cookie': cookie,
+      },
+    }
+  );
+}
