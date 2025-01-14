@@ -50,8 +50,6 @@ export async function DELETE(
     const deletedPost = await prisma.post.delete({
       where: { id: Number(id) },
     });
-    
-    await prisma.$executeRaw`DBCC CHECKIDENT ('Post', RESEED, 0);`;
 
     return Response.json(deletedPost); 
   } catch (error) {

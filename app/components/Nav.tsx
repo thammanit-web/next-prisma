@@ -1,9 +1,15 @@
 'use client';
-import { useRouter } from 'next/navigation';
+import { useRouter,usePathname  } from 'next/navigation';
 import Link from 'next/link';
+
 
 export default function Nav() {
   const router = useRouter();
+  const pathname = usePathname();
+
+  if (pathname.startsWith('/login')){
+    return null
+  };
 
   const handleLogout = async () => {
     const response = await fetch('/api/auth/logout', { method: 'POST' });
