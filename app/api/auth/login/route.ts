@@ -33,10 +33,9 @@ export async function POST(request: Request) {
       { expiresIn: '1h' }
     );
 
-
     const cookie = serialize('auth-token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+      secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
       maxAge: 60 * 60, 
       path: '/',
