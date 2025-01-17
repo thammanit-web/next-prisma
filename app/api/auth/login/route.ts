@@ -30,7 +30,6 @@ export async function POST(request: Request) {
     const token = jwt.sign(
       { userId: user.id, email: user.email },
       SECRET_KEY,
-      { expiresIn: '1h' }
     );
 
     const cookie = serialize('auth-token', token, {

@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic';
 export async function POST(request: NextRequest) {
   const cookie = serialize('auth-token', '', {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
+    secure: process.env.NODE_ENV === 'production', 
     sameSite: 'strict',
     maxAge: -1,
     path: '/',
